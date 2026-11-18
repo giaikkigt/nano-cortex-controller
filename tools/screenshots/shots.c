@@ -21,8 +21,8 @@ __asm__(TTF_SECTION
         ".globl _binary_IBMPlexSans_SemiBold_ttf_end\n_binary_IBMPlexSans_SemiBold_ttf_end:\n"
         ".byte 0\n.text\n");
 
-#define W 320   // Guition JC3248W535C: 320 x 480 portrait
-#define H 480
+#define W 480   // Guition JC3248W535C: 480 x 320 landscape
+#define H 320
 static uint8_t s_draw[W * H * 2];
 static uint16_t s_fb[W * H];
 static uint32_t s_ms;
@@ -495,12 +495,9 @@ int main(void)
     ui_set_link(true);
     ui_set_nano_firmware(2, 3);
     open_settings(NULL);   // the settings screen (1.17.0): Nano, MIDI, USB audio, tile layout, footswitches, system
-    shot("46b-settings-list");   // (portrait: the topics first, a topic's page over the whole screen)
     settings_select(SET_NANO, false);
-    settings_show_page(true);
     shot("46-settings-nano");
     settings_select(SET_USB, false);
-    settings_show_page(true);
     ui_set_usb_gain(-6.0f);
     shot("09-usb-volume");
     close_all();
@@ -514,10 +511,8 @@ int main(void)
     ui_set_midi(&midi);
     open_settings(NULL);
     settings_select(SET_MIDI, false);
-    settings_show_page(true);
     shot("10-bluetooth-midi");
     settings_select(SET_LAYOUT, false);
-    settings_show_page(true);
     shot("47-settings-layout");
     close_all();
 
@@ -580,7 +575,6 @@ int main(void)
     ui_capture_t cap = { .step = UI_CAP_CLOSED, .gain = 160, .level = 200, .user_captures = 37 };
     ui_capture_show(&cap);
     settings_select(SET_CAPTURE, false);
-    settings_show_page(true);
     shot("49-settings-capture");
     on_settings_capture(NULL);
     cap.step = UI_CAP_CONNECT;

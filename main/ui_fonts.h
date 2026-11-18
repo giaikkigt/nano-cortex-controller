@@ -3,6 +3,13 @@
 
 #include "lvgl.h"
 
+extern const lv_font_t ui_font_10;
+extern const lv_font_t ui_font_11;
+extern const lv_font_t ui_font_13;
+extern const lv_font_t ui_font_18;
+extern const lv_font_t ui_font_title_15;
+extern const lv_font_t ui_font_title_17;
+extern const lv_font_t ui_font_title_19;
 extern const lv_font_t ui_font_12;
 extern const lv_font_t ui_font_14;
 extern const lv_font_t ui_font_16;

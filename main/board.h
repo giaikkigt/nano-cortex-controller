@@ -1,4 +1,4 @@
-// Guition JC3248W535C (TF1 V1.1): ESP32-S3, 16 MB flash, 8 MB octal PSRAM, 3.5" IPS 320x480 (portrait) with the
+// Guition JC3248W535C (TF1 V1.1): ESP32-S3, 16 MB flash, 8 MB octal PSRAM, 3.5" IPS 320x480 (a portrait panel) with the
 // AXS15231B controller on QSPI, and the AXS15231B's capacitive touch on I2C (GPIO4 SDA, GPIO8 SCL, address 0x3B).
 // The external SX1509 footswitch expander shares that I2C bus (it was on the Waveshare board's touch bus before).
 #pragma once
@@ -6,9 +6,9 @@
 #include "driver/i2c_master.h"
 #include "lvgl.h"
 
-// Screen size in the UI's orientation (portrait).
-#define BOARD_SCREEN_W 320
-#define BOARD_SCREEN_H 480
+// Screen size in the UI's orientation: landscape, 480 x 320 (board.c turns the picture and the touches by 90 degrees).
+#define BOARD_SCREEN_W 480
+#define BOARD_SCREEN_H 320
 
 // Starts display, touch and LVGL (esp_lvgl_port). Use lvgl_port_lock()/unlock() around LVGL calls.
 lv_display_t *board_display_init(void);

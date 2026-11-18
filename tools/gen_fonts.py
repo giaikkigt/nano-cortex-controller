@@ -17,6 +17,14 @@ FONTS = ROOT / 'main' / 'fonts'
 
 # name, file, size (px), fallback for the LV_SYMBOL icons
 SPECS = [
+    # (smaller sizes for the 480 x 320 screen of the Guition JC3248W535C)
+    ('ui_font_10', 'IBMPlexSans-Medium.ttf', 10, 'lv_font_montserrat_14'),
+    ('ui_font_11', 'IBMPlexSans-Medium.ttf', 11, 'lv_font_montserrat_14'),
+    ('ui_font_13', 'IBMPlexSans-Medium.ttf', 13, 'lv_font_montserrat_14'),
+    ('ui_font_18', 'IBMPlexSans-Medium.ttf', 18, 'lv_font_montserrat_20'),
+    ('ui_font_title_15', 'IBMPlexSans-SemiBold.ttf', 15, 'lv_font_montserrat_14'),
+    ('ui_font_title_17', 'IBMPlexSans-SemiBold.ttf', 17, 'lv_font_montserrat_20'),
+    ('ui_font_title_19', 'IBMPlexSans-SemiBold.ttf', 19, 'lv_font_montserrat_20'),
     ('ui_font_12', 'IBMPlexSans-Medium.ttf', 12, 'lv_font_montserrat_14'),
     ('ui_font_14', 'IBMPlexSans-Medium.ttf', 14, 'lv_font_montserrat_14'),
     ('ui_font_16', 'IBMPlexSans-Medium.ttf', 16, 'lv_font_montserrat_14'),
