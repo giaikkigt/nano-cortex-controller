@@ -2,4 +2,5 @@ dependencies:
   idf: ">=6.0"
   lvgl/lvgl: "^9.2"
   espressif/esp_lvgl_port: "^2.6"
-  espressif/esp_lcd_touch_gt911: "^1.1"
+  # Guition JC3248W535C: AXS15231B display (QSPI) and touch (I2C) - replaces the Waveshare board's GT911 touch
+  espressif/esp_lcd_axs15231b: "^2.1.1"
