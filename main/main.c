@@ -15,6 +15,7 @@
 // A long press on an FX tile opens the FX editor (model and parameters of that slot), on tile 8 the reverb
 // dialog, on tiles 1-2 the footswitch learn.
 
+#include "esp_lvgl_port.h"
 #include <ctype.h>
 #include <math.h>
 #include <stdio.h>
@@ -7074,7 +7075,18 @@ void app_main(void)
 #else
     ui_splash_status("Searching for the Nano Cortex ...", version);
 #endif
+    // GILIAR CONTROL: touch screen only - the SX1509 footswitch expander is not looked for.
+    // -DGILIAR_FOOTSWITCHES=1 brings it back (footswitches on the SX1509, as in the original project).
+#if defined(GILIAR_FOOTSWITCHES) && GILIAR_FOOTSWITCHES
+    lvgl_port_lock(0);
     s_footswitches = footswitches_start(board_i2c_bus(), on_footswitch, on_footswitch_learned);
+    lvgl_port_unlock();
+#else
+    s_footswitches = false;
+    ESP_LOGI(TAG, "GILIAR CONTROL: touch screen only (no SX1509 footswitches)");
+    (void)on_footswitch;
+    (void)on_footswitch_learned;
+#endif
 #ifndef NANO_WEB
     xTaskCreate(app_task, "app", 6144, NULL, 4, NULL);
     xTaskCreate(console_task, "console", 3072, NULL, 3, NULL);

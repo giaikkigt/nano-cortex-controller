@@ -213,6 +213,18 @@ static void touch_to_ui(esp_lcd_touch_handle_t tp, uint16_t *x, uint16_t *y, uin
     }
 }
 
+// esp_lvgl_port stops the program (ESP_ERROR_CHECK) when one touch read fails - an I2C hiccup on the shared bus is
+// enough. The read is skipped instead: LVGL keeps the last touch state, the next read (a few ms later) goes on.
+static esp_err_t (*s_touch_read_orig)(esp_lcd_touch_handle_t tp);
+static uint32_t s_touch_read_errors;
+static esp_err_t touch_read_tolerant(esp_lcd_touch_handle_t tp)
+{
+    esp_err_t err = s_touch_read_orig(tp);
+    if (err != ESP_OK && (s_touch_read_errors++ % 100) == 0)
+        ESP_LOGW(TAG, "Touch read failed (%s), skipped (%u so far)", esp_err_to_name(err), (unsigned)s_touch_read_errors);
+    return ESP_OK;
+}
+
 static esp_lcd_touch_handle_t init_touch(void)
 {
     esp_lcd_panel_io_handle_t io = NULL;
@@ -323,6 +335,10 @@ lv_display_t *board_display_init(void)
     show_test_pattern();
 #endif
     s_touch = init_touch();
+    if (s_touch) {   // GILIAR CONTROL: a failed touch read is skipped instead of stopping the controller
+        s_touch_read_orig = s_touch->read_data;
+        s_touch->read_data = touch_read_tolerant;
+    }
 
     // LVGL draws on core 1; core 0 runs Bluetooth.
     lvgl_port_cfg_t port_config = ESP_LVGL_PORT_INIT_CONFIG();
