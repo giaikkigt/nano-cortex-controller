@@ -17,6 +17,7 @@
 #include "ui_icons.h"
 #include "preset_icons.h"
 #include "lvgl.h"
+#include "esp_heap_caps.h"
 
 #define SCREEN_W 800
 // Eight tiles in two rows, one per footswitch (1-4 top, 5-8 bottom), Quad Cortex style.
@@ -64,6 +65,9 @@
 static ui_command_cb s_on_command;
 static ui_param_cb s_on_param;
 static ui_text_cb s_on_text;
+// GILIAR CONTROL home screen (giliar_ui.inc, included at the end of this file)
+static void gil_build(lv_obj_t *parent);
+static void gil_show(const nano_state_t *st);
 static lv_obj_t *s_save_button, *s_ask, *s_ask_text, *s_ask_ok, *s_rename, *s_rename_title, *s_rename_area;
 static lv_obj_t *s_rename_ok;
 static char s_rename_kind = 'N';   // 'N' preset name, '1'-'4' FX preset
@@ -5312,6 +5316,7 @@ void ui_init(ui_command_cb on_command, ui_param_cb on_param, ui_text_cb on_text)
 
     for (int i = 0; i < TILES; i++) build_tile(s_main, i);
     build_pedals(s_main);
+    gil_build(s_main);   // GILIAR CONTROL: PRESET / STOMP over the original main screen
     build_picker(screen);
     build_metro(screen);
     build_bank_editor(screen);
@@ -5798,6 +5803,7 @@ void ui_show_state(const nano_state_t *st, const ui_view_t *view)
     bool pedals = s_pedal_view && s_fullscreen && view->fx_mode && !view->looper;
     if (pedals) show_pedals(st, view);
     pedals_show(pedals);
+    gil_show(st);
 
     lvgl_port_unlock();
 }
@@ -8316,3 +8322,5 @@ bool ui_tiles_get(ui_tile_info_t tiles[TILES], ui_view_t *view)
     lvgl_port_unlock();
     return drawn;
 }
+
+#include "giliar_ui.inc"
